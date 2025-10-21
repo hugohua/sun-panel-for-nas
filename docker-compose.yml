@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  sun-panel:
+    build: .
+    container_name: sun-panel-navigation
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      # 持久化数据目录
+      - ./data:/app/data
+      # 持久化上传的图片
+      - ./images:/app/images
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - sun-panel-network
+
+networks:
+  sun-panel-network:
+    driver: bridge

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网址导航 - 多模式访问</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部区域 -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <i class="fas fa-globe"></i>
+                    网址导航
+                </h1>
+                <div class="header-controls">
+                    <div class="mode-selector">
+                        <label for="access-mode">访问模式：</label>
+                        <select id="access-mode" class="mode-select">
+                            <option value="intranet">内网访问</option>
+                            <option value="ipv6">IPv6访问</option>
+                            <option value="frp">Frp访问</option>
+                            <option value="easytier">Easytier访问</option>
+                        </select>
+                    </div>
+                    <button id="settings-btn" class="settings-btn">
+                        <i class="fas fa-cog"></i>
+                        设置
+                    </button>
+                    <button id="add-website-btn" class="add-website-btn">
+                        <i class="fas fa-plus"></i>
+                        添加网站
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 网站分类区域 -->
+        <main class="main-content">
+            <div class="categories">
+                <!-- 网站数据将通过JavaScript动态加载 -->
+            </div>
+        </main>
+
+        <!-- 添加网站弹窗 -->
+        <div id="add-website-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>添加新网站</h3>
+                    <button class="modal-close" id="modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-website-form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="website-name">网站名称 *</label>
+                            <input type="text" id="website-name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="website-category">分类</label>
+                            <select id="website-category" name="category">
+                                <option value="开发工具">开发工具</option>
+                                <option value="系统监控">系统监控</option>
+                                <option value="媒体服务">媒体服务</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="website-image">网站图片</label>
+                            <div class="image-upload-container">
+                                <div class="upload-tabs">
+                                    <button type="button" class="upload-tab active" data-tab="file">文件上传</button>
+                                    <button type="button" class="upload-tab" data-tab="url">URL链接</button>
+                                </div>
+                                
+                                <!-- 文件上传区域 -->
+                                <div class="upload-content" id="file-upload">
+                                    <div class="drag-drop-area" id="drag-drop-area">
+                                        <div class="drag-drop-content">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <p>拖拽图片到此处或点击选择文件</p>
+                                            <input type="file" id="website-image" name="image" accept="image/*" style="display: none;">
+                                            <button type="button" class="select-file-btn">选择文件</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- URL上传区域 -->
+                                <div class="upload-content" id="url-upload" style="display: none;">
+                                    <div class="url-input-container">
+                                        <input type="url" id="image-url" placeholder="请输入图片URL链接">
+                                        <button type="button" id="fetch-image-btn">获取图片</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="image-preview" id="image-preview"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="intranet-url">内网地址</label>
+                            <div class="url-input-group">
+                                <input type="url" id="intranet-url" name="intranet" placeholder="https://example.intranet.com">
+                                <button type="button" class="fetch-icon-btn" data-target="intranet">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ipv6-url">IPv6地址</label>
+                            <div class="url-input-group">
+                                <input type="url" id="ipv6-url" name="ipv6" placeholder="https://example.ipv6.com">
+                                <button type="button" class="fetch-icon-btn" data-target="ipv6">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="frp-url">Frp地址</label>
+                            <div class="url-input-group">
+                                <input type="url" id="frp-url" name="frp" placeholder="https://example.frp.com">
+                                <button type="button" class="fetch-icon-btn" data-target="frp">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="easytier-url">Easytier地址</label>
+                            <div class="url-input-group">
+                                <input type="url" id="easytier-url" name="easytier" placeholder="https://example.easytier.com">
+                                <button type="button" class="fetch-icon-btn" data-target="easytier">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancel" id="cancel-btn">取消</button>
+                    <button type="submit" class="btn btn-primary" id="save-btn">保存</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设置弹窗 -->
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>IP地址配置</h3>
+                    <button class="modal-close" id="settings-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="settings-form">
+                        <div class="form-group">
+                            <label for="intranet-ip">内网IP地址：</label>
+                            <input type="text" id="intranet-ip" name="intranetIp" placeholder="例如：192.168.5.23" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="frp-ip">FRP IP地址：</label>
+                            <input type="text" id="frp-ip" name="frpIp" placeholder="例如：178.33.44.22" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="easytier-ip">EasyTier IP地址：</label>
+                            <input type="text" id="easytier-ip" name="easytierIp" placeholder="例如：10.10.8.2" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <div class="form-note">
+                                <i class="fas fa-info-circle"></i>
+                                <span>配置后，添加网站时输入内网地址，系统会自动替换IP地址生成对应的FRP和EasyTier地址（保持端口和路径不变）</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancel" id="settings-cancel-btn">取消</button>
+                    <button type="submit" class="btn btn-primary" id="settings-save-btn">保存配置</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部信息 -->
+        <footer class="footer">
+            <p>&copy; 2025 网址导航 - 多模式访问</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
