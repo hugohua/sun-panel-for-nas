@@ -5,7 +5,7 @@ version: '3.8'
 
 services:
   sun-panel-navigation:
-    image: sun-panel-navigation:latest
+    image: baofen14787/sun-panel-navigation:latest
     container_name: sun-panel-navigation
     restart: unless-stopped
     ports:

@@ -37,7 +37,7 @@ echo version: '3.8'
 echo.
 echo services:
 echo   sun-panel-navigation:
-echo     image: sun-panel-navigation:latest
+echo     image: baofen14787/sun-panel-navigation:latest
 echo     container_name: sun-panel-navigation
 echo     restart: unless-stopped
 echo     ports:
@@ -69,7 +69,7 @@ echo 📁 创建数据目录
 
 REM 拉取镜像
 echo 📦 拉取 sun-panel-navigation 镜像...
-docker pull sun-panel-navigation:latest
+docker pull baofen14787/sun-panel-navigation:latest
 
 REM 启动服务
 echo 🚀 启动 Sun Panel Navigation 服务...

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   sun-panel-navigation:
-    build: .
+    image: baofen14787/sun-panel-navigation:latest
     container_name: sun-panel-navigation
     ports:
       - "3000:3000"

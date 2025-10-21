@@ -33,7 +33,7 @@ version: '3.8'
 
 services:
   sun-panel-navigation:
-    image: sun-panel-navigation:latest
+    image: baofen14787/sun-panel-navigation:latest
     container_name: sun-panel-navigation
     restart: unless-stopped
     ports:
@@ -64,7 +64,7 @@ echo "📁 创建数据目录"
 
 # 拉取镜像
 echo "📦 拉取 sun-panel-navigation 镜像..."
-docker pull sun-panel-navigation:latest
+docker pull baofen14787/sun-panel-navigation:latest
 
 # 启动服务
 echo "🚀 启动 Sun Panel Navigation 服务..."

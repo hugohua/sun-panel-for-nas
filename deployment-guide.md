@@ -21,14 +21,14 @@ cd sun-panel
 #### 方式一：使用预构建镜像（推荐）
 ```bash
 # 1. 拉取镜像
-docker pull sun-panel-navigation:latest
+docker pull baofen14787/sun-panel-navigation:latest
 
 # 2. 创建配置文件
 cat > docker-compose.yml << 'EOF'
 version: '3.8'
 services:
   sun-panel-navigation:
-    image: sun-panel-navigation:latest
+    image: baofen14787/sun-panel-navigation:latest
     container_name: sun-panel-navigation
     restart: unless-stopped
     ports:
@@ -57,7 +57,7 @@ git clone <repository-url> sun-panel
 cd sun-panel
 
 # 2. 构建镜像
-docker build -t sun-panel-navigation:latest .
+docker build -t baofen14787/sun-panel-navigation:latest .
 
 # 3. 使用 docker-compose 启动
 docker-compose up -d
@@ -118,7 +118,7 @@ docker-compose logs -f sun-panel-navigation
 #### 更新镜像
 ```bash
 # 拉取最新镜像
-docker pull sun-panel-navigation:latest
+docker pull baofen14787/sun-panel-navigation:latest
 
 # 重启服务
 docker-compose down
@@ -134,7 +134,7 @@ docker-compose up -d
 version: '3.8'
 services:
   sun-panel-navigation:
-    image: sun-panel-navigation:latest
+    image: baofen14787/sun-panel-navigation:latest
     container_name: sun-panel-navigation
     restart: unless-stopped
     networks:
@@ -239,7 +239,7 @@ cp -r ./backup/images-20250121 ./images
 ```yaml
 services:
   sun-panel-navigation:
-    image: sun-panel-navigation:latest
+    image: baofen14787/sun-panel-navigation:latest
     deploy:
       resources:
         limits:
@@ -254,7 +254,7 @@ services:
 ```yaml
 services:
   sun-panel-navigation:
-    image: sun-panel-navigation:latest
+    image: baofen14787/sun-panel-navigation:latest
     logging:
       driver: "json-file"
       options:
