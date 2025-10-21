@@ -20,9 +20,6 @@ class AccessModeManager {
 
         // 初始化所有链接
         this.updateAllLinks();
-        
-        // 创建模式指示器
-        this.createModeIndicator();
     }
 
     // 从localStorage加载保存的模式
@@ -54,7 +51,6 @@ class AccessModeManager {
         this.currentMode = mode;
         this.saveMode(mode); // 保存模式到localStorage
         this.updateAllLinks();
-        this.updateModeIndicator();
         
         // 添加切换动画效果
         this.websiteCards.forEach((card, index) => {
@@ -69,8 +65,7 @@ class AccessModeManager {
     }
 
     updateAllLinks() {
-        // 由于移除了website-links元素，这里只需要更新模式指示器
-        this.updateModeIndicator();
+        // 由于移除了website-links元素，这里不需要做任何操作
     }
 
 
@@ -94,31 +89,6 @@ class AccessModeManager {
         return colors[mode] || '#3498db';
     }
 
-    createModeIndicator() {
-        const indicator = document.createElement('div');
-        indicator.className = 'mode-indicator';
-        indicator.id = 'mode-indicator';
-        document.body.appendChild(indicator);
-        this.updateModeIndicator();
-    }
-
-    updateModeIndicator() {
-        const indicator = document.getElementById('mode-indicator');
-        if (indicator) {
-            const modeNames = {
-                'intranet': '内网访问',
-                'ipv6': 'IPv6访问',
-                'frp': 'Frp访问',
-                'easytier': 'Easytier访问'
-            };
-            
-            indicator.innerHTML = `
-                <i class="fas fa-${this.getModeIcon(this.currentMode)}"></i>
-                ${modeNames[this.currentMode]}
-            `;
-            indicator.style.background = this.getModeColor(this.currentMode);
-        }
-    }
 }
 
 // 网站数据管理类
@@ -414,6 +384,225 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// 导入导出管理类
+class ImportExportManager {
+    constructor() {
+        this.importExportModal = document.getElementById('import-export-modal');
+        this.importFile = document.getElementById('import-file');
+        this.fileDropZone = document.getElementById('file-drop-zone');
+        this.fileInfo = document.getElementById('file-info');
+        this.fileName = document.getElementById('file-name');
+        this.importDataBtn = document.getElementById('import-data-btn');
+        this.exportDataBtn = document.getElementById('export-data-btn');
+        this.selectedFile = null;
+        this.init();
+    }
+
+    init() {
+        // 绑定事件
+        document.getElementById('import-export-btn').addEventListener('click', () => this.open());
+        document.getElementById('import-export-close').addEventListener('click', () => this.close());
+        document.getElementById('import-export-cancel-btn').addEventListener('click', () => this.close());
+        
+        // 标签切换
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
+        });
+        
+        // 导出功能
+        this.exportDataBtn.addEventListener('click', () => this.exportData());
+        
+        // 导入功能
+        this.importDataBtn.addEventListener('click', () => this.importData());
+        
+        // 文件选择
+        this.importFile.addEventListener('change', (e) => this.handleFileSelect(e));
+        
+        // 文件拖拽
+        this.fileDropZone.addEventListener('click', () => this.importFile.click());
+        this.fileDropZone.addEventListener('dragover', (e) => this.handleDragOver(e));
+        this.fileDropZone.addEventListener('dragleave', (e) => this.handleDragLeave(e));
+        this.fileDropZone.addEventListener('drop', (e) => this.handleDrop(e));
+        
+        // 移除文件
+        document.querySelector('.remove-file-btn').addEventListener('click', () => this.removeFile());
+        
+        // 点击背景关闭
+        this.importExportModal.addEventListener('click', (e) => {
+            if (e.target === this.importExportModal) this.close();
+        });
+    }
+
+    open() {
+        this.importExportModal.style.display = 'flex';
+        this.importExportModal.style.opacity = '0';
+        this.importExportModal.offsetHeight;
+        requestAnimationFrame(() => {
+            this.importExportModal.classList.add('show');
+        });
+        document.body.style.overflow = 'hidden';
+    }
+
+    close() {
+        this.importExportModal.classList.remove('show');
+        setTimeout(() => {
+            this.importExportModal.style.display = 'none';
+        }, 300);
+        document.body.style.overflow = '';
+        this.resetForm();
+    }
+
+    switchTab(tabName) {
+        // 更新标签状态
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        
+        // 显示对应内容
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.getElementById(`${tabName}-tab`).classList.add('active');
+    }
+
+    async exportData() {
+        try {
+            const response = await fetch('/api/websites');
+            const result = await response.json();
+            
+            if (result.success) {
+                const data = {
+                    websites: result.data,
+                    exportTime: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `websites-backup-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                Utils.showNotification('数据导出成功', 'success');
+            } else {
+                Utils.showNotification('导出失败: ' + result.message, 'error');
+            }
+        } catch (error) {
+            console.error('导出失败:', error);
+            Utils.showNotification('导出失败，请重试', 'error');
+        }
+    }
+
+    handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (file && file.type === 'application/json') {
+            this.selectedFile = file;
+            this.showFileInfo(file.name);
+        } else {
+            Utils.showNotification('请选择JSON文件', 'error');
+        }
+    }
+
+    handleDragOver(e) {
+        e.preventDefault();
+        this.fileDropZone.classList.add('drag-over');
+    }
+
+    handleDragLeave(e) {
+        e.preventDefault();
+        this.fileDropZone.classList.remove('drag-over');
+    }
+
+    handleDrop(e) {
+        e.preventDefault();
+        this.fileDropZone.classList.remove('drag-over');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            const file = files[0];
+            if (file.type === 'application/json') {
+                this.selectedFile = file;
+                this.showFileInfo(file.name);
+            } else {
+                Utils.showNotification('请选择JSON文件', 'error');
+            }
+        }
+    }
+
+    showFileInfo(fileName) {
+        this.fileName.textContent = fileName;
+        this.fileDropZone.style.display = 'none';
+        this.fileInfo.style.display = 'flex';
+        this.importDataBtn.disabled = false;
+    }
+
+    removeFile() {
+        this.selectedFile = null;
+        this.importFile.value = '';
+        this.fileDropZone.style.display = 'block';
+        this.fileInfo.style.display = 'none';
+        this.importDataBtn.disabled = true;
+    }
+
+    async importData() {
+        if (!this.selectedFile) {
+            Utils.showNotification('请先选择文件', 'error');
+            return;
+        }
+
+        const backupBeforeImport = document.getElementById('backup-before-import').checked;
+        
+        if (backupBeforeImport) {
+            // 先备份现有数据
+            await this.exportData();
+        }
+
+        try {
+            const text = await this.selectedFile.text();
+            const data = JSON.parse(text);
+            
+            // 验证数据格式
+            if (!data.websites || !Array.isArray(data.websites)) {
+                throw new Error('无效的数据格式');
+            }
+            
+            const response = await fetch('/api/websites/import', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                Utils.showNotification('数据导入成功', 'success');
+                this.close();
+                // 重新加载页面
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            } else {
+                Utils.showNotification('导入失败: ' + result.message, 'error');
+            }
+        } catch (error) {
+            console.error('导入失败:', error);
+            Utils.showNotification('导入失败: ' + error.message, 'error');
+        }
+    }
+
+    resetForm() {
+        this.removeFile();
+        this.switchTab('export');
+    }
+}
 
 // 弹窗管理类
 class ModalManager {
@@ -1002,11 +1191,200 @@ class ModalManager {
     }
 }
 
+// 拖拽排序管理类
+class DragSortManager {
+    constructor() {
+        this.draggedElement = null;
+        this.dragOverElement = null;
+        this.init();
+    }
+
+    init() {
+        // 立即尝试初始化，如果DOM还没准备好，会在数据加载后重新初始化
+        this.setupDragAndDrop();
+    }
+
+    setupDragAndDrop() {
+        const websitesGrid = document.querySelector('.websites-grid');
+        if (!websitesGrid) {
+            console.log('拖拽排序: 未找到 .websites-grid 容器');
+            return;
+        }
+
+        console.log('拖拽排序: 开始设置拖拽功能');
+        
+        // 为所有网站卡片添加拖拽事件
+        this.addDragListenersToCards();
+        
+        // 监听新添加的卡片
+        this.observeNewCards();
+        
+        console.log('拖拽排序: 拖拽功能设置完成');
+    }
+
+    addDragListenersToCards() {
+        const cards = document.querySelectorAll('.website-card');
+        console.log(`拖拽排序: 找到 ${cards.length} 个网站卡片`);
+        cards.forEach(card => {
+            this.addDragListeners(card);
+        });
+    }
+
+    addDragListeners(card) {
+        // 避免重复添加事件监听器
+        if (card.dataset.dragInitialized === 'true') {
+            return;
+        }
+        
+        // 设置拖拽属性
+        card.draggable = true;
+        card.dataset.dragInitialized = 'true';
+        
+        // 拖拽开始
+        card.addEventListener('dragstart', (e) => {
+            console.log('拖拽开始:', card.dataset.name);
+            this.draggedElement = card;
+            card.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', card.outerHTML);
+            
+            // 添加拖拽激活状态到网格
+            const grid = document.querySelector('.websites-grid');
+            if (grid) {
+                grid.classList.add('drag-active');
+            }
+            
+            // 阻止其他事件和右键菜单
+            e.stopPropagation();
+            card.dataset.dragging = 'true';
+        });
+
+        // 拖拽结束
+        card.addEventListener('dragend', (e) => {
+            console.log('拖拽结束:', card.dataset.name);
+            card.classList.remove('dragging');
+            this.draggedElement = null;
+            this.dragOverElement = null;
+            
+            // 移除所有拖拽状态
+            document.querySelectorAll('.website-card').forEach(c => {
+                c.classList.remove('drag-over');
+                c.dataset.dragging = 'false';
+            });
+            
+            const grid = document.querySelector('.websites-grid');
+            if (grid) {
+                grid.classList.remove('drag-active');
+            }
+            
+            // 阻止其他事件
+            e.stopPropagation();
+        });
+
+        // 拖拽进入
+        card.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            if (card !== this.draggedElement) {
+                card.classList.add('drag-over');
+                this.dragOverElement = card;
+            }
+        });
+
+        // 拖拽离开
+        card.addEventListener('dragleave', (e) => {
+            if (!card.contains(e.relatedTarget)) {
+                card.classList.remove('drag-over');
+            }
+        });
+
+        // 拖拽悬停
+        card.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        });
+
+        // 放置
+        card.addEventListener('drop', (e) => {
+            e.preventDefault();
+            card.classList.remove('drag-over');
+            
+            if (this.draggedElement && this.draggedElement !== card) {
+                this.swapElements(this.draggedElement, card);
+                this.saveNewOrder();
+            }
+        });
+    }
+
+    swapElements(element1, element2) {
+        const parent = element1.parentNode;
+        const next1 = element1.nextSibling;
+        const next2 = element2.nextSibling;
+        
+        parent.insertBefore(element1, next2);
+        parent.insertBefore(element2, next1);
+    }
+
+    async saveNewOrder() {
+        const cards = document.querySelectorAll('.website-card');
+        const newOrder = Array.from(cards).map(card => {
+            return card.getAttribute('data-name');
+        });
+
+        console.log('拖拽排序: 准备保存新顺序:', newOrder);
+
+        try {
+            const response = await fetch('/api/websites/reorder', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ order: newOrder })
+            });
+
+            const result = await response.json();
+            console.log('拖拽排序: API响应:', result);
+            
+            if (result.success) {
+                Utils.showNotification('排序已保存', 'success');
+            } else {
+                Utils.showNotification('保存排序失败: ' + result.message, 'error');
+            }
+        } catch (error) {
+            console.error('保存排序失败:', error);
+            Utils.showNotification('保存排序失败，请重试', 'error');
+        }
+    }
+
+    observeNewCards() {
+        // 使用MutationObserver监听新添加的卡片
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        if (node.classList && node.classList.contains('website-card')) {
+                            this.addDragListeners(node);
+                        }
+                        // 检查子节点
+                        const cards = node.querySelectorAll && node.querySelectorAll('.website-card');
+                        if (cards) {
+                            cards.forEach(card => this.addDragListeners(card));
+                        }
+                    }
+                });
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+}
+
 // 数据加载管理类
 class DataLoader {
     constructor() {
         this.websites = [];
-        this.categories = [];
     }
 
     async loadData() {
@@ -1023,7 +1401,6 @@ class DataLoader {
             
             if (result.success) {
                 this.websites = result.data || [];
-                this.categories = result.categories || [];
                 console.log('加载到网站数据:', this.websites.length, '个网站');
                 this.renderWebsites();
             } else {
@@ -1050,6 +1427,11 @@ class DataLoader {
         });
         
         categoriesContainer.appendChild(websitesContainer);
+        
+        // 网站渲染完成后，重新初始化拖拽功能
+        if (window.dragSortManager) {
+            window.dragSortManager.setupDragAndDrop();
+        }
     }
 
     createWebsiteCard(website) {
@@ -1209,7 +1591,6 @@ class ContextMenuManager {
                 if (website) {
                     // 填充所有表单字段
                     document.getElementById('website-name').value = website.name || '';
-                    document.getElementById('website-category').value = website.category || '';
                     document.getElementById('intranet-url').value = website.intranet || '';
                     document.getElementById('ipv6-url').value = website.ipv6 || '';
                     document.getElementById('frp-url').value = website.frp || '';
@@ -1288,7 +1669,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('页面加载完成，开始初始化...');
     
     // 声明全局变量
-    let modeManager, modalManager, contextMenuManager, dataLoader;
+    let modeManager, modalManager, contextMenuManager, dataLoader, dragSortManager, importExportManager;
     
     try {
         // 初始化访问模式管理器
@@ -1306,6 +1687,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // 初始化数据加载器
         dataLoader = new DataLoader();
         console.log('数据加载器初始化完成');
+        
+        // 初始化拖拽排序管理器
+        dragSortManager = new DragSortManager();
+        window.dragSortManager = dragSortManager; // 设置为全局变量
+        console.log('拖拽排序管理器初始化完成');
+        
+        // 初始化导入导出管理器
+        importExportManager = new ImportExportManager();
+        console.log('导入导出管理器初始化完成');
         
         // 加载数据
         dataLoader.loadData();
@@ -1334,8 +1724,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 添加右键菜单功能
     document.addEventListener('contextmenu', (e) => {
         if (e.target.closest('.website-card')) {
-            e.preventDefault();
             const card = e.target.closest('.website-card');
+            // 如果正在拖拽，不显示右键菜单
+            if (card.dataset.dragging === 'true') {
+                return;
+            }
+            e.preventDefault();
             const name = card.querySelector('.website-name').textContent;
             contextMenuManager.showContextMenu(e, card, name);
         }

@@ -98,14 +98,13 @@ app.get('/api/websites', (req, res) => {
     res.json({
         success: true,
         data: data.websites,
-        categories: data.categories,
         total: data.websites.length
     });
 });
 
 // API路由 - 添加新网站
 app.post('/api/websites', upload.single('image'), (req, res) => {
-    const { name, description, category, intranet, ipv6, frp, easytier } = req.body;
+    const { name, description, intranet, ipv6, frp, easytier } = req.body;
     
     // 简单的验证
     if (!name) {
@@ -121,7 +120,6 @@ app.post('/api/websites', upload.single('image'), (req, res) => {
         name,
         description,
         image: req.file ? req.file.filename : null,
-        category: category || '其他',
         intranet: intranet || '#',
         ipv6: ipv6 || '#',
         frp: frp || '#',
@@ -144,10 +142,55 @@ app.post('/api/websites', upload.single('image'), (req, res) => {
     }
 });
 
+// API路由 - 重新排序网站
+app.put('/api/websites/reorder', (req, res) => {
+    const { order } = req.body;
+    
+    if (!order || !Array.isArray(order)) {
+        return res.status(400).json({
+            success: false,
+            message: '请提供有效的排序数组'
+        });
+    }
+    
+    const data = readWebsitesData();
+    const reorderedWebsites = [];
+    
+    // 按照新的顺序重新排列网站
+    order.forEach(name => {
+        const website = data.websites.find(w => w.name === name);
+        if (website) {
+            reorderedWebsites.push(website);
+        }
+    });
+    
+    // 添加任何未在排序中的网站（新添加的网站）
+    data.websites.forEach(website => {
+        if (!order.includes(website.name)) {
+            reorderedWebsites.push(website);
+        }
+    });
+    
+    data.websites = reorderedWebsites;
+    
+    if (saveWebsitesData(data)) {
+        res.json({
+            success: true,
+            message: '排序保存成功',
+            data: data.websites
+        });
+    } else {
+        res.status(500).json({
+            success: false,
+            message: '保存排序失败'
+        });
+    }
+});
+
 // API路由 - 更新网站
 app.put('/api/websites/:name', upload.single('image'), (req, res) => {
     const { name } = req.params;
-    const { name: newName, category, intranet, ipv6, frp, easytier } = req.body;
+    const { name: newName, intranet, ipv6, frp, easytier } = req.body;
     
     const data = readWebsitesData();
     const websiteIndex = data.websites.findIndex(w => w.name === name);
@@ -164,7 +207,6 @@ app.put('/api/websites/:name', upload.single('image'), (req, res) => {
         ...data.websites[websiteIndex],
         name: newName || data.websites[websiteIndex].name,
         image: req.file ? req.file.filename : data.websites[websiteIndex].image,
-        category: category || data.websites[websiteIndex].category,
         intranet: intranet || data.websites[websiteIndex].intranet,
         ipv6: ipv6 || data.websites[websiteIndex].ipv6,
         frp: frp || data.websites[websiteIndex].frp,
@@ -212,6 +254,48 @@ app.delete('/api/websites/:name', (req, res) => {
         res.status(500).json({
             success: false,
             message: '保存数据失败'
+        });
+    }
+});
+
+// API路由 - 导入网站数据
+app.post('/api/websites/import', (req, res) => {
+    const { websites } = req.body;
+    
+    if (!websites || !Array.isArray(websites)) {
+        return res.status(400).json({
+            success: false,
+            message: '无效的导入数据格式'
+        });
+    }
+    
+    // 验证网站数据格式
+    for (const website of websites) {
+        if (!website.name) {
+            return res.status(400).json({
+                success: false,
+                message: '网站数据缺少必要字段：name'
+            });
+        }
+    }
+    
+    const data = {
+        websites: websites,
+        categories: [] // 保持数据结构兼容性，但不再使用分类
+    };
+    
+    if (saveWebsitesData(data)) {
+        res.json({
+            success: true,
+            message: '数据导入成功',
+            data: {
+                websitesCount: websites.length
+            }
+        });
+    } else {
+        res.status(500).json({
+            success: false,
+            message: '保存导入数据失败'
         });
     }
 });

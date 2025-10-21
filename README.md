@@ -126,8 +126,6 @@ npm start
     {
       "id": 1,
       "name": "网站名称",
-      "description": "网站描述",
-      "icon": "fas fa-globe",
       "image": "图片文件名.png",
       "category": "分类名称",
       "intranet": "内网地址",
@@ -292,7 +290,7 @@ MIT License - 可自由使用、修改和分发。
 ## 📞 支持
 
 如果您遇到问题或有建议，请：
-- 提交 [Issue](https://github.com/your-repo/sun-panel/issues)
+- 提交 [Issue](https://github.com/hugohua/sun-panel-for-nas/issues)
 - 查看 [文档](DOCKER_DEPLOYMENT.md)
 - 联系维护者
 

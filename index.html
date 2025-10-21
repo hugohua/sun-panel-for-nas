@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网址导航 - 多模式访问</title>
+    <title>网址导航</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -35,6 +35,10 @@
                         <i class="fas fa-plus"></i>
                         添加网站
                     </button>
+                    <button id="import-export-btn" class="import-export-btn">
+                        <i class="fas fa-download"></i>
+                        导入导出
+                    </button>
                 </div>
             </div>
         </header>
@@ -60,15 +64,6 @@
                         <div class="form-group">
                             <label for="website-name">网站名称 *</label>
                             <input type="text" id="website-name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="website-category">分类</label>
-                            <select id="website-category" name="category">
-                                <option value="开发工具">开发工具</option>
-                                <option value="系统监控">系统监控</option>
-                                <option value="媒体服务">媒体服务</option>
-                                <option value="其他">其他</option>
-                            </select>
                         </div>
                         <div class="form-group">
                             <label for="website-image">网站图片</label>
@@ -180,6 +175,73 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-cancel" id="settings-cancel-btn">取消</button>
                     <button type="submit" class="btn btn-primary" id="settings-save-btn">保存配置</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 导入导出弹窗 -->
+        <div id="import-export-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>数据导入导出</h3>
+                    <button class="modal-close" id="import-export-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="import-export-tabs">
+                        <button class="tab-btn active" data-tab="export">导出数据</button>
+                        <button class="tab-btn" data-tab="import">导入数据</button>
+                    </div>
+                    
+                    <!-- 导出区域 -->
+                    <div class="tab-content active" id="export-tab">
+                        <div class="export-section">
+                            <h4><i class="fas fa-download"></i> 导出网站数据</h4>
+                            <p>将当前所有网站数据导出为JSON文件，用于备份或迁移。</p>
+                            <button id="export-data-btn" class="btn btn-primary">
+                                <i class="fas fa-download"></i>
+                                导出数据
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 导入区域 -->
+                    <div class="tab-content" id="import-tab">
+                        <div class="import-section">
+                            <h4><i class="fas fa-upload"></i> 导入网站数据</h4>
+                            <p>从JSON文件导入网站数据，将覆盖现有数据。</p>
+                            <div class="file-upload-area">
+                                <input type="file" id="import-file" accept=".json" style="display: none;">
+                                <div class="file-drop-zone" id="file-drop-zone">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>点击选择文件或拖拽JSON文件到此处</p>
+                                    <button type="button" class="select-file-btn">选择文件</button>
+                                </div>
+                                <div class="file-info" id="file-info" style="display: none;">
+                                    <i class="fas fa-file"></i>
+                                    <span id="file-name"></span>
+                                    <button type="button" class="remove-file-btn">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="import-options">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="backup-before-import" checked>
+                                    <span class="checkmark"></span>
+                                    导入前备份现有数据
+                                </label>
+                            </div>
+                            <button id="import-data-btn" class="btn btn-primary" disabled>
+                                <i class="fas fa-upload"></i>
+                                导入数据
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancel" id="import-export-cancel-btn">关闭</button>
                 </div>
             </div>
         </div>

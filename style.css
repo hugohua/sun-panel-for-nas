@@ -143,6 +143,31 @@ body {
     transform: translateY(0);
 }
 
+.import-export-btn {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+}
+
+.import-export-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+}
+
+.import-export-btn:active {
+    transform: translateY(0);
+}
+
 /* 主要内容区域 */
 .main-content {
     margin-bottom: 30px;
@@ -179,6 +204,8 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    cursor: move;
+    user-select: none;
 }
 
 .website-card::before {
@@ -201,6 +228,27 @@ body {
 
 .website-card:hover::before {
     transform: scaleX(1);
+}
+
+/* 拖拽状态样式 */
+.website-card.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+    z-index: 1000;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.website-card.drag-over {
+    border-color: #3498db;
+    background: #f0f8ff;
+    transform: scale(1.05);
+}
+
+.websites-grid.drag-active {
+    background: rgba(52, 152, 219, 0.05);
+    border: 2px dashed #3498db;
+    border-radius: 12px;
+    padding: 10px;
 }
 
 .website-card {
@@ -418,21 +466,6 @@ body {
 
 /* 网站卡片样式（移除动画效果） */
 
-/* 模式切换指示器 */
-.mode-indicator {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(52, 152, 219, 0.9);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
 
 /* 加载动画 */
 .loading {
@@ -1245,6 +1278,182 @@ body {
     color: #3498db;
     margin-top: 2px;
     flex-shrink: 0;
+}
+
+/* 导入导出弹窗样式 */
+.import-export-tabs {
+    display: flex;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6c757d;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-btn.active {
+    color: #3498db;
+    border-bottom-color: #3498db;
+    background: #f8f9fa;
+}
+
+.tab-btn:hover {
+    background: #f8f9fa;
+    color: #3498db;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.export-section, .import-section {
+    padding: 20px 0;
+}
+
+.export-section h4, .import-section h4 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.export-section p, .import-section p {
+    margin: 0 0 20px 0;
+    color: #6c757d;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.file-upload-area {
+    margin-bottom: 20px;
+}
+
+.file-drop-zone {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.file-drop-zone:hover {
+    border-color: #3498db;
+    background: #f8f9fa;
+}
+
+.file-drop-zone.drag-over {
+    border-color: #3498db;
+    background: #e3f2fd;
+    transform: scale(1.02);
+}
+
+.file-drop-zone i {
+    font-size: 2.5rem;
+    color: #6c757d;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.file-drop-zone p {
+    margin: 0 0 15px 0;
+    color: #495057;
+    font-size: 14px;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.file-info i {
+    color: #3498db;
+}
+
+.file-info span {
+    flex: 1;
+    font-size: 14px;
+    color: #495057;
+}
+
+.remove-file-btn {
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.remove-file-btn:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.import-options {
+    margin-bottom: 20px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #495057;
+}
+
+.checkbox-label input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #dee2e6;
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark {
+    background: #3498db;
+    border-color: #3498db;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 /* 响应式设计 */

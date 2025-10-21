@@ -1,34 +1,23 @@
 {
   "websites": [
     {
-      "id": 1761036464895,
-      "name": "B站",
-      "image": "image-1761036464892-740041270.png",
-      "category": "开发工具",
-      "intranet": "https://www.bilibili.com/",
+      "id": 1761047095326,
+      "name": "B2",
+      "image": null,
+      "intranet": "http://localhost:3000/",
       "ipv6": "#",
       "frp": "#",
       "easytier": "#"
+    },
+    {
+      "id": 1761036464895,
+      "name": "B站",
+      "image": "image-1761036464892-740041270.png",
+      "intranet": "https://www.bilibili.com/",
+      "ipv6": "https://www.bilibili.com/",
+      "frp": "https://www.bilibili.com/",
+      "easytier": "https://www.bilibili.com/"
     }
   ],
-  "categories": [
-    {
-      "id": 1,
-      "name": "开发工具",
-      "icon": "fas fa-code",
-      "color": "#3498db"
-    },
-    {
-      "id": 2,
-      "name": "系统监控",
-      "icon": "fas fa-chart-line",
-      "color": "#2ecc71"
-    },
-    {
-      "id": 3,
-      "name": "媒体服务",
-      "icon": "fas fa-play-circle",
-      "color": "#e74c3c"
-    }
-  ]
+  "categories": []
 }
