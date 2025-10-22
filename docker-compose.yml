@@ -5,10 +5,10 @@ services:
     image: baofen14787/sun-panel-navigation:latest
     container_name: sun-panel-navigation
     ports:
-      - "3000:3000"
+      - "3002:3002"
     environment:
       - NODE_ENV=production
-      - PORT=3000
+      - PORT=3002
     volumes:
       # 持久化数据目录
       - ./data:/app/data
@@ -16,7 +16,7 @@ services:
       - ./images:/app/images
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3002/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
       interval: 30s
       timeout: 10s
       retries: 3

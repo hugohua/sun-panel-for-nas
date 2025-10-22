@@ -1,28 +1,13 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const helmet = require('helmet');
 const compression = require('compression');
 const multer = require('multer');
 const fs = require('fs');
 const axios = require('axios');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// 中间件配置
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
-            scriptSrc: ["'self'", "'unsafe-inline'"],
-            fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
-            imgSrc: ["'self'", "data:", "https:"],
-            connectSrc: ["'self'"]
-        }
-    }
-}));
+const PORT = process.env.PORT || 3002;
 
 app.use(compression());
 app.use(cors());
@@ -663,7 +648,7 @@ app.use((err, req, res, next) => {
 });
 
 // 启动服务器
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log('🚀 网址导航服务器启动成功!');
     console.log(`📱 本地访问: http://localhost:${PORT}`);
     console.log(`🌐 网络访问: http://0.0.0.0:${PORT}`);

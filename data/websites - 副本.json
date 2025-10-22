@@ -1,0 +1,36 @@
+{
+  "websites": [
+    {
+      "name": "GitHub",
+      "image": "github.png",
+      "intranet": "http://192.168.5.23:3000",
+      "ipv6": "https://github.com",
+      "frp": "http://48.125.144.120:3000",
+      "easytier": "http://10.10.12.2:3000"
+    },
+    {
+      "name": "MongoDB Express",
+      "image": "mongodb.png",
+      "intranet": "http://192.168.5.23:27017",
+      "ipv6": "https://www.mongodb.com",
+      "frp": "http://48.125.144.120:27017",
+      "easytier": "http://10.10.12.2:27017"
+    },
+    {
+      "name": "Grafana",
+      "image": "grafana.png",
+      "intranet": "http://192.168.5.23:3001",
+      "ipv6": "https://grafana.com",
+      "frp": "http://48.125.144.120:3001",
+      "easytier": "http://10.10.12.2:3001"
+    },
+    {
+      "name": "Jupyter Notebook",
+      "image": "jupyter.png",
+      "intranet": "http://192.168.5.23:8888",
+      "ipv6": "https://jupyter.org",
+      "frp": "http://48.125.144.120:8888",
+      "easytier": "http://10.10.12.2:8888"
+    }
+  ]
+}

@@ -1,22 +1,212 @@
 {
   "websites": [
     {
-      "id": 1761047095326,
-      "name": "B2",
-      "image": null,
-      "intranet": "http://localhost:3000/",
-      "ipv6": "#",
+      "name": "Photo",
+      "image": "Photo_1761103019844.svg",
+      "intranet": "http://192.168.5.23:5080",
+      "ipv6": "https://photo.ghugo.site:18888",
+      "frp": "http://47.115.134.120:5080",
+      "easytier": "http://10.10.12.2:5080"
+    },
+    {
+      "name": "DSM",
+      "image": "DSM_1761103019913.png",
+      "intranet": "http://192.168.5.23:5000/",
+      "ipv6": "https://nas.ghugo.site:18888/",
+      "frp": "http://47.115.134.120:5000/",
+      "easytier": "http://10.10.12.2:5000/"
+    },
+    {
+      "name": "OpenWrt",
+      "image": "OpenWrt_1761103019939.png",
+      "intranet": "http://192.168.5.251/cgi-bin/luci/admin/network/diagnostics",
+      "ipv6": "https://nas.ghugo.site:18888/cgi-bin/luci/admin/network/diagnostics",
+      "frp": "http://47.115.134.120/cgi-bin/luci/admin/network/diagnostics",
+      "easytier": "http://10.10.12.2/cgi-bin/luci/admin/network/diagnostics"
+    },
+    {
+      "name": "Lucky",
+      "image": "Lucky_1761103019967.svg",
+      "intranet": "http://192.168.5.23:16601",
+      "ipv6": "https://lucky.ghugo.site:18888",
+      "frp": "http://47.115.134.120:16601",
+      "easytier": "http://10.10.12.2:16601"
+    },
+    {
+      "name": "音乐播放器",
+      "image": "音乐播放器_1761103021414.png",
+      "intranet": "http://192.168.5.23:4533",
+      "ipv6": "https://navidrome.ghugo.site:18888",
+      "frp": "http://47.115.134.120:4533",
+      "easytier": "http://10.10.12.2:4533"
+    },
+    {
+      "name": "Emby",
+      "image": "Emby_1761103020115.jpeg",
+      "intranet": "http://192.168.5.23:8096",
+      "ipv6": "https://emby.ghugo.site:18888",
+      "frp": "http://47.115.134.120:8096",
+      "easytier": "http://10.10.12.2:8096"
+    },
+    {
+      "name": "中兴路由器管理",
+      "image": "中兴路由器管理_1761103019989.ico",
+      "intranet": "http://192.168.5.1/#/",
+      "ipv6": "http://192.168.5.1/#/",
       "frp": "#",
       "easytier": "#"
     },
     {
-      "id": 1761036464895,
-      "name": "B站",
-      "image": "image-1761036464892-740041270.png",
-      "intranet": "https://www.bilibili.com/",
-      "ipv6": "https://www.bilibili.com/",
-      "frp": "https://www.bilibili.com/",
-      "easytier": "https://www.bilibili.com/"
+      "name": "音乐播放器",
+      "image": "音乐播放器_1761103021414.png",
+      "intranet": "http://192.168.5.23:4533",
+      "ipv6": "https://navidrome.ghugo.site:18888",
+      "frp": "http://47.115.134.120:4533",
+      "easytier": "http://10.10.12.2:4533"
+    },
+    {
+      "name": "Music Tag",
+      "image": "Music_Tag_1761103021714.svg",
+      "intranet": "http://192.168.5.23:8002/",
+      "ipv6": "http://192.168.5.23:8002/",
+      "frp": "http://47.115.134.120:8002/",
+      "easytier": "http://10.10.12.2:8002/"
+    },
+    {
+      "name": "MoviePilot",
+      "image": "MoviePilot_1761103021738.ico",
+      "intranet": "http://192.168.5.23:3000/",
+      "ipv6": "https://mp.ghugo.site:18888",
+      "frp": "http://47.115.134.120:3000/",
+      "easytier": "http://10.10.12.2:3000/"
+    },
+    {
+      "name": "IYUU辅种",
+      "image": "IYUU辅种_1761103021764.ico",
+      "intranet": "http://192.168.5.23:8780",
+      "ipv6": "https://iyuu.ghugo.site:18888",
+      "frp": "http://47.115.134.120:8780",
+      "easytier": "http://10.10.12.2:8780"
+    },
+    {
+      "name": "PT刷流",
+      "image": "PT刷流_1761103022064.png",
+      "intranet": "http://192.168.5.23:6528",
+      "ipv6": "https://vertex.ghugo.site:18888",
+      "frp": "http://47.115.134.120:6528",
+      "easytier": "http://10.10.12.2:6528"
+    },
+    {
+      "name": "xiaoya",
+      "image": "xiaoya_1761103021786.png",
+      "intranet": "http://192.168.5.23:5678/",
+      "ipv6": "http://192.168.5.23:5678/",
+      "frp": "http://47.115.134.120:5678/",
+      "easytier": "http://10.10.12.2:5678/"
+    },
+    {
+      "name": "容器管理",
+      "image": "容器管理_1761103022039.png",
+      "intranet": "http://192.168.5.23:8888/",
+      "ipv6": "https://p.ghugo.site:18888",
+      "frp": "http://47.115.134.120:8888/",
+      "easytier": "http://10.10.12.2:8888/"
+    },
+    {
+      "name": "Alist",
+      "image": "Alist_1761103021909.png",
+      "intranet": "http://192.168.5.23:5244",
+      "ipv6": "https://alist.ghugo.site:18888",
+      "frp": "http://47.115.134.120:5244",
+      "easytier": "http://10.10.12.2:5244"
+    },
+    {
+      "name": "qBittorrent",
+      "image": "qBittorrent_1761103022093.png",
+      "intranet": "http://192.168.5.23:8085",
+      "ipv6": "https://qb.ghugo.site:18888",
+      "frp": "http://47.115.134.120:8085",
+      "easytier": "http://10.10.12.2:8085"
+    },
+    {
+      "name": "QB刷流常用",
+      "image": "QB刷流常用_1761103022166.png",
+      "intranet": "http://192.168.5.23:8087",
+      "ipv6": "https://q3.ghugo.site:18888",
+      "frp": "http://47.115.134.120:8087",
+      "easytier": "http://10.10.12.2:8087"
+    },
+    {
+      "name": "qBittorrent辅种",
+      "image": "qBittorrent辅种_1761103022240.png",
+      "intranet": "http://192.168.5.23:8088",
+      "ipv6": "https://q4.ghugo.site:18888",
+      "frp": "http://47.115.134.120:8088",
+      "easytier": "http://10.10.12.2:8088"
+    },
+    {
+      "name": "qBittorrent 测试",
+      "image": "qBittorrent_测试_1761103022306.png",
+      "intranet": "http://192.168.5.23:8086",
+      "ipv6": "http://192.168.5.23:8086",
+      "frp": "http://47.115.134.120:8086",
+      "easytier": "http://10.10.12.2:8086"
+    },
+    {
+      "name": "Home Assistant",
+      "image": "Home_Assistant_1761103022416.ico",
+      "intranet": "http://192.168.5.23:8123",
+      "ipv6": "https://hs.ghugo.site:18888",
+      "frp": "http://47.115.134.120:8123",
+      "easytier": "http://10.10.12.2:8123"
+    },
+    {
+      "name": "kavita 漫画阅读",
+      "image": "kavita_漫画阅读_1761103022468.png",
+      "intranet": "http://192.168.5.23:9798",
+      "ipv6": "https://kavita.ghugo.site:18888",
+      "frp": "http://47.115.134.120:9798",
+      "easytier": "http://10.10.12.2:9798"
+    },
+    {
+      "name": "签到程序",
+      "image": "签到程序_1761103022534.png",
+      "intranet": "http://192.168.5.23:8923",
+      "ipv6": "http://192.168.5.23:8923",
+      "frp": "http://47.115.134.120:8923",
+      "easytier": "http://10.10.12.2:8923"
+    },
+    {
+      "name": "青龙",
+      "image": "青龙_1761103022601.svg",
+      "intranet": "http://192.168.5.23:5700/",
+      "ipv6": "https://qinglong.ghugo.site:18888/",
+      "frp": "http://47.115.134.120:5700/",
+      "easytier": "http://10.10.12.2:5700/"
+    },
+    {
+      "name": "Audiobookshelf",
+      "image": "Audiobookshelf_1761103022627.ico",
+      "intranet": "http://192.168.5.23:13378/",
+      "ipv6": "http://audio.ghugo.site:18888",
+      "frp": "http://47.115.134.120:13378/",
+      "easytier": "http://10.10.12.2:13378/"
+    },
+    {
+      "name": "单词听写",
+      "image": "单词听写_1761103022654.png",
+      "intranet": "http://192.168.5.23:2025/",
+      "ipv6": "http://192.168.5.23:2025/",
+      "frp": "http://47.115.134.120:2025/",
+      "easytier": "http://10.10.12.2:2025/"
+    },
+    {
+      "name": "NAS 服务器版导航",
+      "image": "NAS_服务器版导航_1761103022706.ico",
+      "intranet": "http://10.10.12.2:3002/",
+      "ipv6": "http://47.115.134.120:3002/",
+      "frp": "#",
+      "easytier": "#"
     }
   ],
   "categories": []

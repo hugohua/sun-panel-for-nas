@@ -32,7 +32,7 @@ services:
     container_name: sun-panel-navigation
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3002:3002"
     volumes:
       - ./data:/app/data
       - ./images:/app/images
@@ -40,7 +40,7 @@ services:
       - NODE_ENV=production
       - TZ=Asia/Shanghai
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3002/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -66,11 +66,11 @@ docker-compose up -d
 ### 3. 配置说明
 
 #### 端口配置
-- **默认端口**: 3000
+- **默认端口**: 3002
 - **修改端口**: 在 docker-compose.yml 中修改 `ports` 配置
   ```yaml
   ports:
-    - "8080:3000"  # 外部端口:内部端口
+    - "8080:3002"  # 外部端口:内部端口
   ```
 
 #### 数据持久化
@@ -81,17 +81,17 @@ docker-compose up -d
 #### 环境变量
 - `NODE_ENV=production` - 生产环境模式
 - `TZ=Asia/Shanghai` - 时区设置
-- `PORT=3000` - 应用端口（默认3000）
+- `PORT=3002` - 应用端口（默认3002）
 
 ### 4. 访问应用
 
 #### 本地访问
-- 浏览器打开: `http://localhost:3000`
-- 健康检查: `http://localhost:3000/api/health`
+- 浏览器打开: `http://localhost:3002`
+- 健康检查: `http://localhost:3002/api/health`
 
 #### 网络访问
-- 局域网访问: `http://[设备IP]:3000`
-- 例如: `http://192.168.1.100:3000`
+- 局域网访问: `http://[设备IP]:3002`
+- 例如: `http://192.168.1.100:3002`
 
 ### 5. 管理命令
 
@@ -125,67 +125,6 @@ docker-compose down
 docker-compose up -d
 ```
 
-### 6. 高级配置
-
-#### 反向代理配置（Nginx）
-如果需要域名访问或SSL支持，可以添加Nginx反向代理：
-
-```yaml
-version: '3.8'
-services:
-  sun-panel-navigation:
-    image: baofen14787/sun-panel-navigation:latest
-    container_name: sun-panel-navigation
-    restart: unless-stopped
-    networks:
-      - sun-panel-navigation-network
-
-  nginx:
-    image: nginx:alpine
-    container_name: sun-panel-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./ssl:/etc/nginx/ssl
-    depends_on:
-      - sun-panel-navigation
-    networks:
-      - sun-panel-navigation-network
-
-networks:
-  sun-panel-network:
-    driver: bridge
-```
-
-#### Nginx配置文件示例
-```nginx
-events {
-    worker_connections 1024;
-}
-
-http {
-    upstream sun-panel-navigation {
-        server sun-panel-navigation:3000;
-    }
-
-    server {
-        listen 80;
-        server_name your-domain.com;
-
-        location / {
-            proxy_pass http://sun-panel-navigation;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-    }
-}
-```
-
 ### 7. 故障排除
 
 #### 检查容器状态
@@ -205,7 +144,7 @@ docker exec -it sun-panel-navigation sh
 
 #### 检查端口占用
 ```bash
-netstat -tlnp | grep 3000
+netstat -tlnp | grep 3002
 ```
 
 #### 常见问题

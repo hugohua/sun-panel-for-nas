@@ -23,7 +23,7 @@ services:
     container_name: sun-panel-navigation
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3002:3002"
     volumes:
       - ./data:/app/data
       - ./images:/app/images
@@ -31,7 +31,7 @@ services:
       - NODE_ENV=production
       - TZ=Asia/Shanghai
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3002/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -56,25 +56,12 @@ docker pull baofen14787/sun-panel-navigation:latest
 docker run -d \
   --name sun-panel-navigation \
   --restart unless-stopped \
-  -p 3000:3000 \
+  -p 3002:3002 \
   -v $(pwd)/data:/app/data \
   -v $(pwd)/images:/app/images \
   -e NODE_ENV=production \
   -e TZ=Asia/Shanghai \
   baofen14787/sun-panel-navigation:latest
-```
-
-### 方式三：使用快速部署脚本
-
-#### Linux/macOS
-```bash
-chmod +x quick-deploy.sh
-./quick-deploy.sh
-```
-
-#### Windows
-```cmd
-quick-deploy.bat
 ```
 
 ## 📋 管理命令
@@ -122,11 +109,11 @@ docker-compose up -d
 ## 🔧 配置说明
 
 ### 端口配置
-- **默认端口**: 3000
+- **默认端口**: 3002
 - **修改端口**: 在 docker-compose.yml 中修改 `ports` 配置
   ```yaml
   ports:
-    - "8080:3000"  # 外部端口:内部端口
+    - "8080:3002"  # 外部端口:内部端口
   ```
 
 ### 数据持久化
@@ -136,18 +123,18 @@ docker-compose up -d
 ### 环境变量
 - `NODE_ENV=production` - 生产环境模式
 - `TZ=Asia/Shanghai` - 时区设置
-- `PORT=3000` - 应用端口（默认3000）
+- `PORT=3002` - 应用端口（默认3002）
 
 ## 🌐 访问应用
 
 ### 本地访问
-- **主页面**: http://localhost:3000
-- **健康检查**: http://localhost:3000/api/health
-- **API文档**: http://localhost:3000/api/websites
+- **主页面**: http://localhost:3002
+- **健康检查**: http://localhost:3002/api/health
+- **API文档**: http://localhost:3002/api/websites
 
 ### 网络访问
-- **局域网访问**: http://[设备IP]:3000
-- **例如**: http://192.168.1.100:3000
+- **局域网访问**: http://[设备IP]:3002
+- **例如**: http://192.168.1.100:3002
 
 ## 🔄 更新镜像
 
@@ -166,7 +153,7 @@ docker rm sun-panel-navigation
 docker run -d \
   --name sun-panel-navigation \
   --restart unless-stopped \
-  -p 3000:3000 \
+  -p 3002:3002 \
   -v $(pwd)/data:/app/data \
   -v $(pwd)/images:/app/images \
   -e NODE_ENV=production \
@@ -203,7 +190,7 @@ docker exec -it sun-panel-navigation sh
 
 ### 检查端口占用
 ```bash
-netstat -tlnp | grep 3000
+netstat -tlnp | grep 3002
 ```
 
 ### 常见问题
@@ -223,7 +210,7 @@ netstat -tlnp | grep 3000
 
 4. **网络问题**
    - 检查防火墙设置
-   - 确保端口3000未被阻止
+   - 确保端口3002未被阻止
 
 ## 📊 性能优化
 
@@ -264,7 +251,7 @@ services:
 
 ## 📞 技术支持
 
-- **GitHub**: https://github.com/your-repo/sun-panel
+- **GitHub**: https://github.com/hugohua/sun-panel-for-nas
 - **DockerHub**: https://hub.docker.com/r/baofen14787/sun-panel-navigation
 - **问题反馈**: 请在GitHub提交Issue
 

@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>网址导航</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="/css/fonts/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <!-- 头部区域 -->
         <header class="header">
             <div class="header-content">
-                <h1 class="title">
-                    <i class="fas fa-globe"></i>
-                    网址导航
-                </h1>
-                <div class="header-controls">
+                <div class="header-main">
+                    <h1 class="title">
+                        <i class="fas fa-globe"></i>
+                        网址导航
+                    </h1>
                     <div class="mode-selector">
                         <label for="access-mode">访问模式：</label>
                         <select id="access-mode" class="mode-select">
@@ -27,17 +27,22 @@
                             <option value="easytier">Easytier访问</option>
                         </select>
                     </div>
+                    <button id="header-toggle" class="header-toggle" aria-label="展开/收起菜单">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                <div class="header-controls" id="header-controls">
                     <button id="settings-btn" class="settings-btn">
                         <i class="fas fa-cog"></i>
-                        设置
+                        <span class="btn-text">设置</span>
                     </button>
                     <button id="add-website-btn" class="add-website-btn">
                         <i class="fas fa-plus"></i>
-                        添加网站
+                        <span class="btn-text">添加网站</span>
                     </button>
                     <button id="import-export-btn" class="import-export-btn">
                         <i class="fas fa-download"></i>
-                        导入导出
+                        <span class="btn-text">导入导出</span>
                     </button>
                 </div>
             </div>
@@ -248,10 +253,10 @@
 
         <!-- 底部信息 -->
         <footer class="footer">
-            <p>&copy; 2025 网址导航 - 多模式访问</p>
+            <p>&copy; 2025 网址导航</p>
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>

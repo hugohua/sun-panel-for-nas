@@ -1,3 +1,48 @@
+// Header折叠功能
+class HeaderManager {
+    constructor() {
+        this.headerToggle = document.getElementById('header-toggle');
+        this.headerControls = document.getElementById('header-controls');
+        this.isExpanded = false;
+        this.init();
+    }
+
+    init() {
+        if (this.headerToggle && this.headerControls) {
+            // 移动端默认收起
+            if (window.innerWidth <= 768) {
+                this.collapse();
+            }
+            
+            this.headerToggle.addEventListener('click', () => {
+                this.toggle();
+            });
+        }
+    }
+
+    toggle() {
+        if (this.isExpanded) {
+            this.collapse();
+        } else {
+            this.expand();
+        }
+    }
+
+    expand() {
+        this.headerControls.classList.remove('collapsed');
+        this.headerControls.classList.add('expanded');
+        this.headerToggle.classList.add('expanded');
+        this.isExpanded = true;
+    }
+
+    collapse() {
+        this.headerControls.classList.remove('expanded');
+        this.headerControls.classList.add('collapsed');
+        this.headerToggle.classList.remove('expanded');
+        this.isExpanded = false;
+    }
+}
+
 // 访问模式管理类
 class AccessModeManager {
     constructor() {
@@ -150,6 +195,9 @@ class WebsiteDataManager {
             </div>
             <div class="website-info">
                 <h3 class="website-name">${website.name}</h3>
+            </div>
+            <div class="drag-handle">
+                <i class="fas fa-grip-vertical"></i>
             </div>
         `;
         
@@ -1202,12 +1250,19 @@ class DragSortManager {
     init() {
         // 立即尝试初始化，如果DOM还没准备好，会在数据加载后重新初始化
         this.setupDragAndDrop();
+        
+        // 如果初始化失败，设置一个延迟重试
+        if (!document.querySelector('.websites-grid')) {
+            setTimeout(() => {
+                this.setupDragAndDrop();
+            }, 1000);
+        }
     }
 
     setupDragAndDrop() {
         const websitesGrid = document.querySelector('.websites-grid');
         if (!websitesGrid) {
-            console.log('拖拽排序: 未找到 .websites-grid 容器');
+            console.log('拖拽排序: 等待网站数据加载完成...');
             return;
         }
 
@@ -1449,6 +1504,9 @@ class DataLoader {
             <div class="website-info">
                 <h3 class="website-name">${website.name}</h3>
             </div>
+            <div class="drag-handle">
+                <i class="fas fa-grip-vertical"></i>
+            </div>
         `;
         
         // 将链接数据存储到卡片上，用于点击时获取当前模式的URL
@@ -1669,9 +1727,13 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('页面加载完成，开始初始化...');
     
     // 声明全局变量
-    let modeManager, modalManager, contextMenuManager, dataLoader, dragSortManager, importExportManager;
+    let headerManager, modeManager, modalManager, contextMenuManager, dataLoader, dragSortManager, importExportManager;
     
     try {
+        // 初始化Header管理器
+        headerManager = new HeaderManager();
+        console.log('Header管理器初始化完成');
+        
         // 初始化访问模式管理器
         modeManager = new AccessModeManager();
         console.log('访问模式管理器初始化完成');
@@ -1705,6 +1767,23 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             Utils.showNotification('欢迎使用网址导航！', 'success');
         }, 1000);
+        
+        // 监听窗口大小变化，调整header状态
+        window.addEventListener('resize', () => {
+            if (headerManager) {
+                if (window.innerWidth <= 768) {
+                    // 移动端默认收起
+                    if (headerManager.isExpanded) {
+                        headerManager.collapse();
+                    }
+                } else {
+                    // 桌面端默认展开
+                    if (!headerManager.isExpanded) {
+                        headerManager.expand();
+                    }
+                }
+            }
+        });
     } catch (error) {
         console.error('初始化过程中发生错误:', error);
         Utils.showNotification('初始化失败，请刷新页面重试', 'error');

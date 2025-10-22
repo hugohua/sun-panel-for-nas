@@ -1,6 +1,25 @@
-# Sun Panel 网址导航
+# 🚀 Sun Panel 网址导航
 
-一个现代化的网址导航网站，支持多种访问模式切换，具备完整的网站管理功能。
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-baofen14787%2Fsun--panel--navigation-blue?style=flat-square&logo=docker)](https://hub.docker.com/r/baofen14787/sun-panel-navigation)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=flat-square&logo=node.js)](https://nodejs.org/)
+
+> 🎯 **一个现代化的网址导航网站，支持多种访问模式切换，具备完整的网站管理功能。**
+
+## 🐳 Docker 快速部署
+
+```bash
+# 一键部署
+docker run -d \
+  --name sun-panel-navigation \
+  --restart unless-stopped \
+  -p 3002:3002 \
+  -v $(pwd)/data:/app/data \
+  -v $(pwd)/images:/app/images \
+  baofen14787/sun-panel-navigation:latest
+```
+
+**访问地址**: http://localhost:3002
 
 ## ✨ 功能特性
 
@@ -43,11 +62,8 @@ cd sun-panel
 docker-compose up -d
 
 # 3. 访问网站
-# 打开浏览器访问: http://localhost:3000
+# 打开浏览器访问: http://localhost:3002
 ```
-
-**Windows 用户**：双击运行 `docker-start.bat`  
-**Linux/Mac 用户**：运行 `./docker-start.sh`
 
 ### 方法二：传统部署
 
@@ -59,7 +75,7 @@ npm install
 npm start
 
 # 3. 访问网站
-# 打开浏览器访问: http://localhost:3000
+# 打开浏览器访问: http://localhost:3002
 ```
 
 ## 📖 使用指南
@@ -110,7 +126,6 @@ npm start
 ├── Dockerfile              # Docker镜像构建文件
 ├── docker-compose.yml      # Docker Compose配置
 ├── .dockerignore           # Docker忽略文件
-├── test-docker.js          # Docker配置测试脚本
 ├── DOCKER_DEPLOYMENT.md    # Docker部署详细文档
 └── README.md               # 说明文档
 ```
@@ -127,7 +142,6 @@ npm start
       "id": 1,
       "name": "网站名称",
       "image": "图片文件名.png",
-      "category": "分类名称",
       "intranet": "内网地址",
       "ipv6": "IPv6地址",
       "frp": "Frp地址",
@@ -164,18 +178,6 @@ const modeNames = {
 };
 ```
 
-### 自定义样式
-在`style.css`文件中修改颜色主题：
-
-```css
-/* 修改主色调 */
-:root {
-    --primary-color: #3498db;
-    --secondary-color: #2ecc71;
-    --accent-color: #e74c3c;
-}
-```
-
 ## 🐳 Docker 部署
 
 ### 快速部署
@@ -184,9 +186,6 @@ const modeNames = {
 # 使用 Docker Compose（推荐）
 docker-compose up -d
 
-# 或使用启动脚本
-# Windows: docker-start.bat
-# Linux/Mac: ./docker-start.sh
 ```
 
 ### Docker 特性
@@ -197,56 +196,6 @@ docker-compose up -d
 - **数据持久化**：网站数据和图片自动保存
 - **自动重启**：容器异常时自动重启
 
-### 管理命令
-
-```bash
-# 查看运行状态
-docker-compose ps
-
-# 查看日志
-docker-compose logs -f
-
-# 停止服务
-docker-compose down
-
-# 重启服务
-docker-compose restart
-```
-
-📖 **详细Docker部署说明**：请参考 [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)
-
-## 🛠️ 技术特性
-
-### 前端技术
-- **原生JavaScript**：ES6+语法，模块化设计
-- **CSS3动画**：流畅的过渡效果和悬停动画
-- **响应式设计**：完美适配各种屏幕尺寸
-- **本地存储**：使用localStorage保存用户设置
-
-### 后端技术
-- **Node.js + Express**：轻量级服务器框架
-- **RESTful API**：完整的REST API接口设计
-- **文件上传**：支持图片文件上传和管理
-- **跨域处理**：解决favicon获取的跨域问题
-
-### 部署技术
-- **Docker容器化**：基于Alpine Linux的轻量级镜像
-- **Docker Compose**：一键部署和编排
-- **健康检查**：自动监控应用状态
-- **数据持久化**：网站数据和图片持久化存储
-
-### 安全特性
-- **非root运行**：容器内使用非root用户
-- **输入验证**：前后端数据验证和过滤
-- **CORS配置**：安全的跨域资源共享
-- **Helmet安全**：HTTP安全头配置
-
-## 浏览器兼容性
-
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
 
 ## 📝 更新日志
 
@@ -291,7 +240,6 @@ MIT License - 可自由使用、修改和分发。
 
 如果您遇到问题或有建议，请：
 - 提交 [Issue](https://github.com/hugohua/sun-panel-for-nas/issues)
-- 查看 [文档](DOCKER_DEPLOYMENT.md)
 - 联系维护者
 
 ---

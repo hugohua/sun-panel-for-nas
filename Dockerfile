@@ -13,20 +13,16 @@ RUN npm ci --only=production && npm cache clean --force
 # 复制应用代码
 COPY . .
 
-# 创建非root用户
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
-
-# 更改文件所有权
-RUN chown -R nodejs:nodejs /app
-USER nodejs
+# 创建必要的目录并设置权限
+RUN mkdir -p /app/data /app/images && \
+    chmod +x /app/data /app/images
 
 # 暴露端口
-EXPOSE 3000
+EXPOSE 3002
 
 # 健康检查
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+HEALTHCHECK --interval=300s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3002/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
 # 启动应用
 CMD ["node", "server.js"]
