@@ -1,18 +1,17 @@
-# 🚀 Sun Panel 网址导航
+# 🚀 Sun Panel Website Navigation
 
 [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-baofen14787%2Fsun--panel--navigation-blue?style=flat-square&logo=docker)](https://hub.docker.com/r/baofen14787/sun-panel-navigation)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=flat-square&logo=node.js)](https://nodejs.org/)
 
-> 🎯 **一个现代化的网址导航网站，支持多种访问模式切换，具备完整的网站管理功能。**
+> 🎯 **A modern website navigation platform with multi-mode access support and complete website management features.**
 
 ![](./pages.png)
 
-
-## 方法一：🐳 Docker 快速部署
+## Method 1: 🐳 Docker Quick Deployment
 
 ```bash
-# 一键部署
+# One-click deployment
 docker run -d \
   --name sun-panel-navigation \
   --restart unless-stopped \
@@ -23,7 +22,7 @@ docker run -d \
 ```
 
 ```bash
-# docker compose 方式部署
+# Docker Compose deployment
 version: '3.8'
 
 services:
@@ -34,8 +33,8 @@ services:
     ports:
       - "3002:3002"
     volumes:
-      - ./data:/app/data  # 替换为自己的实际目录
-      - ./images:/app/images # 替换为自己的实际目录
+      - ./data:/app/data  # Website data storage directory (replace with your actual directory)
+      - ./images:/app/images # Website icon storage directory (replace with your actual directory)
     environment:
       - NODE_ENV=production
       - TZ=Asia/Shanghai
@@ -51,129 +50,125 @@ networks:
     driver: bridge
 ```
 
-### 方法二：传统部署
+## Method 2: Traditional Deployment
 
 ```bash
-
-# 克隆仓库
+# Clone repository
 git clone git@github.com:hugohua/sun-panel-for-nas.git
 
-# 1. 安装依赖
+# 1. Install dependencies
 npm install
 
-# 2. 启动服务
+# 2. Start service
 npm start
 
-# 3. 访问网站
-# 打开浏览器访问: http://localhost:3002
+# 3. Access website
+# Open browser and visit: http://localhost:3002
 ```
 
-**访问地址**: http://localhost:3002
+**Access URL**: http://localhost:3002
 
-## ✨ 功能特性
+## ✨ Features
 
-### 🚀 核心功能
-- **多模式访问**：支持内网、IPv6、Frp、Easytier四种访问模式一键切换
-- **本地缓存**：访问模式设置自动保存，下次打开时恢复上次选择
-- **实时搜索**：支持网站名称和描述的实时搜索过滤
-- **右键菜单**：支持右键编辑、删除网站，提供便捷管理
+### 🚀 Core Features
+- **Multi-mode Access**: Support for Intranet, IPv6, Frp, and Easytier access modes with one-click switching
+- **Local Caching**: Access mode settings are automatically saved and restored on next visit
+- **Real-time Search**: Support for real-time search and filtering by website name and description
+- **Right-click Menu**: Support for right-click editing and deleting websites for convenient management
 
-### 📝 网站管理
-- **添加网站**：支持拖拽上传、URL获取、图标获取等多种方式
-- **图标获取**：自动获取网站favicon，支持多图标选择
-- **图片上传**：支持拖拽上传和URL链接获取图片
-- **IP配置**：支持配置内网、FRP、Easytier IP，自动填充地址
-- **数据持久化**：网站数据和图片自动保存到本地
+### 📝 Website Management
+- **Add Websites**: Support for drag-and-drop upload, URL fetching, and icon retrieval
+- **Icon Retrieval**: Automatically fetch website favicons with support for multiple icon selection
+- **Image Upload**: Support for drag-and-drop upload and URL link image retrieval
+- **IP Configuration**: Support for configuring Intranet, FRP, and Easytier IPs with automatic address filling
+- **Data Persistence**: Website data and images are automatically saved locally
 
-### 🎨 界面设计
-- **现代化UI**：渐变背景、毛玻璃效果、圆角设计
-- **响应式布局**：完美适配桌面端和移动端
-- **流畅动画**：平滑的切换动画和悬停效果
-- **默认图标**：网站无图标时显示首字母默认图标
-- **弹窗优化**：滚动条美化，防止样式变形
+### 🎨 Interface Design
+- **Modern UI**: Gradient backgrounds, glassmorphism effects, and rounded corners
+- **Responsive Layout**: Perfect adaptation for desktop and mobile devices
+- **Smooth Animations**: Smooth transition animations and hover effects
+- **Default Icons**: Display first letter of website name when no icon is available
+- **Optimized Popups**: Beautified scrollbars to prevent style deformation
 
-### 🔧 技术特性
-- **容器化部署**：支持Docker和Docker Compose一键部署
-- **RESTful API**：完整的后端API接口
-- **健康检查**：自动监控应用状态
-- **安全运行**：非root用户运行，增强安全性
+### 🔧 Technical Features
+- **Containerized Deployment**: Support for Docker and Docker Compose one-click deployment
+- **RESTful API**: Complete backend API interfaces
+- **Health Check**: Automatic application status monitoring
+- **Secure Operation**: Non-root user operation for enhanced security
 
+## 📖 User Guide
 
+### Basic Operations
+1. **Switch Access Mode**: Click the mode selector in the top-right corner to choose the desired access mode
+2. **Access Websites**: Click any website card to access the corresponding website
+3. **Search Websites**: Enter keywords in the search box to quickly find websites
+4. **Right-click Management**: Right-click on website cards to edit or delete websites
 
-## 📖 使用指南
+### Adding Websites
+1. **Open Add Window**: Click the "Add Website" button in the top-right corner
+2. **Fill Basic Information**: Website name, description, and category (required)
+3. **Upload Icons**:
+   - **Drag and Drop**: Directly drag image files to the upload area
+   - **URL Fetching**: Enter image links for automatic retrieval
+   - **Icon Retrieval**: Enter website URL and click "Get Icons" button to automatically fetch favicons
+4. **Configure Addresses**: Fill in URL addresses for the four access modes
+5. **Save Website**: Click save to complete the addition
 
-### 基本操作
-1. **切换访问模式**：点击右上角的模式选择器，选择需要的访问模式
-2. **访问网站**：点击任意网站卡片即可访问对应网站
-3. **搜索网站**：在搜索框中输入关键词快速查找网站
-4. **右键管理**：右键点击网站卡片可编辑或删除网站
+### Icon Retrieval Feature
+- **Automatic Retrieval**: Enter website URL and the system automatically fetches favicons
+- **Multiple Icon Selection**: If multiple icons are found, a selection window will pop up
+- **Smart Parsing**: Support for parsing various icon tags in HTML
+- **Default Icons**: Display first letter of website name when no icon is available
 
-### 添加网站
-1. **打开添加窗口**：点击右上角的"添加网站"按钮
-2. **填写基本信息**：网站名称、描述、分类（必填）
-3. **上传图标**：
-   - **拖拽上传**：直接拖拽图片文件到上传区域
-   - **URL获取**：输入图片链接自动获取
-   - **图标获取**：输入网站URL，点击"获取图标"按钮自动获取favicon
-4. **配置地址**：填写四种访问模式的URL地址
-5. **保存网站**：点击保存完成添加
+### IP Configuration Feature
+1. **Open Settings**: Click the "Settings" button in the top-right corner
+2. **Configure IPs**: Fill in IP addresses for Intranet, FRP, and Easytier
+3. **Auto-fill**: When adding websites, the system will automatically fill other addresses based on the intranet address
+4. **Save Settings**: Settings are automatically saved locally
 
-### 图标获取功能
-- **自动获取**：输入网站URL，系统自动获取favicon
-- **多图标选择**：如果找到多个图标，会弹出选择窗口
-- **智能解析**：支持解析HTML中的各种图标标签
-- **默认图标**：无图标时显示网站名称首字母
+### Keyboard Shortcuts
+- `ESC`: Close popup or cancel operation
+- `Enter`: Confirm operation
 
-### IP配置功能
-1. **打开设置**：点击右上角的"设置"按钮
-2. **配置IP**：填写内网、FRP、Easytier的IP地址
-3. **自动填充**：添加网站时，系统会根据内网地址自动填充其他地址
-4. **保存设置**：设置会自动保存到本地
-
-### 快捷键
-- `ESC`：关闭弹窗或取消操作
-- `Enter`：确认操作
-
-## 文件结构
+## File Structure
 
 ```
-├── index.html              # 主页面文件
-├── style.css               # 样式文件
-├── script.js               # JavaScript功能文件
-├── server.js               # Node.js服务器文件
-├── package.json            # 项目配置文件
+├── index.html              # Main page file
+├── style.css               # Style file
+├── script.js               # JavaScript functionality file
+├── server.js               # Node.js server file
+├── package.json            # Project configuration file
 ├── data/
-│   └── websites.json       # 网站数据文件
-├── images/                 # 上传的图片存储目录
-├── Dockerfile              # Docker镜像构建文件
-├── docker-compose.yml      # Docker Compose配置
-├── .dockerignore           # Docker忽略文件
-├── DOCKER_DEPLOYMENT.md    # Docker部署详细文档
-└── README.md               # 说明文档
+│   └── websites.json       # Website data file
+├── images/                 # Uploaded image storage directory
+├── Dockerfile              # Docker image build file
+├── docker-compose.yml      # Docker Compose configuration
+├── .dockerignore           # Docker ignore file
+└── README.md               # Documentation
 ```
 
-## 数据管理
+## Data Management
 
-### JSON数据格式
-网站数据存储在 `data/websites.json` 文件中：
+### JSON Data Format
+Website data is stored in the `data/websites.json` file:
 
 ```json
 {
   "websites": [
     {
       "id": 1,
-      "name": "网站名称",
-      "image": "图片文件名.png",
-      "intranet": "内网地址",
-      "ipv6": "IPv6地址",
-      "frp": "Frp地址",
-      "easytier": "Easytier地址"
+      "name": "Website Name",
+      "image": "image_filename.png",
+      "intranet": "Intranet Address",
+      "ipv6": "IPv6 Address",
+      "frp": "Frp Address",
+      "easytier": "Easytier Address"
     }
   ],
   "categories": [
     {
       "id": 1,
-      "name": "分类名称",
+      "name": "Category Name",
       "icon": "fas fa-folder",
       "color": "#3498db"
     }
@@ -181,29 +176,30 @@ npm start
 }
 ```
 
-### 图片管理
-- 上传的图片自动保存到 `images/` 文件夹
-- 支持格式：JPEG、PNG、GIF、WebP
-- 文件大小限制：5MB
-- 自动生成唯一文件名避免冲突
+### Image Management
+- Uploaded images are automatically saved to the `images/` folder
+- Supported formats: JPEG, PNG, GIF, WebP
+- File size limit: 5MB
+- Automatic unique filename generation to avoid conflicts
 
-### 修改访问模式
-在`script.js`文件中修改`AccessModeManager`类的相关配置：
+### Modifying Access Modes
+Modify the relevant configuration in the `AccessModeManager` class in the `script.js` file:
 
 ```javascript
-// 修改模式选项
+// Modify mode options
 const modeNames = {
-    'intranet': '内网访问',
-    'ipv6': 'IPv6访问',
-    'frp': 'Frp访问',
-    'easytier': 'Easytier访问'
+    'intranet': 'Intranet Access',
+    'ipv6': 'IPv6 Access',
+    'frp': 'Frp Access',
+    'easytier': 'Easytier Access'
 };
 ```
 
-## 📄 许可证
+## 📄 License
 
-MIT License - 可自由使用、修改和分发。
+MIT License - Free to use, modify, and distribute.
 
+## 🌐 Language Support
 
-
-
+- [中文文档](readme_zh.md) - Chinese documentation
+- [English Documentation](README.md) - English documentation
