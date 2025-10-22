@@ -355,34 +355,6 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// 测试HTML解析的函数
-function testIconParsing() {
-    const testHtml = `
-    <link rel="apple-touch-icon" href="https://i0.hdslb.com/bfs/static/jinkela/long/images/512.png" />
-    <link rel="shortcut icon" href="https://i0.hdslb.com/bfs/static/jinkela/long/images/favicon.ico" />
-    <link rel="icon" href="/favicon.ico" />
-    `;
-    
-    const iconPatterns = [
-        /<link[^>]+rel=["']apple-touch-icon["'][^>]*>/gi,
-        /<link[^>]+rel=["']shortcut icon["'][^>]*>/gi,
-        /<link[^>]+rel=["']icon["'][^>]*>/gi
-    ];
-    
-    console.log('测试HTML解析:');
-    iconPatterns.forEach((pattern, index) => {
-        const matches = testHtml.match(pattern);
-        if (matches) {
-            console.log(`模式 ${index + 1} 匹配到:`, matches);
-            matches.forEach(match => {
-                const hrefMatch = match.match(/href=["']([^"']+)["']/i);
-                if (hrefMatch) {
-                    console.log(`  提取的URL: ${hrefMatch[1]}`);
-                }
-            });
-        }
-    });
-}
 
 // 获取网站图标的函数
 async function getWebsiteFavicons(url) {
@@ -606,8 +578,6 @@ app.get('/api/getSiteFaviconList', async (req, res) => {
             url = 'https://' + url;
         }
 
-        // 运行测试解析
-        testIconParsing();
         
         const iconUrls = await getWebsiteFavicons(url);
         
